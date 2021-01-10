@@ -5,7 +5,7 @@ Create a scheduler that keeps track of what hour it is. This application updates
 TThis is my attempt to create a dynamic website that tracks user inputs and keep a schedule. This combines several HTML, CSS, and javascript elements. This also utilizes AJAX and JQuery elements for local storage and pulling elemeents from HTML dyunamically
 
 ### Here is the final product:
-![Daily Scheduler](https://github.com/zdjeffers/Daily-Planner/main/Assets/Screenshot%202021-01-10%20033231.png)
+![Daily Scheduler](https://github.com/zdjeffers/Daily-Planner/Assets/daily-scheduler.png)
 
 ### Here is the link to the deployed site:
 [ZDJeffers Scheduler](https://github.com/zdjeffers/Daily-Planner/Develop/index.html)
