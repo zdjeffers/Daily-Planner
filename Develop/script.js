@@ -12,7 +12,7 @@ var hourNow = moment().startOf('hour');
 console.log(hourNow);
 
 // add time slots and save buttons to arrays
-for(var i = 9; i<= 17; i++) {
+for (var i = 9; i <= 17; i++) {
     // create vars for time moment, create block and savebutton id queries
     var block = $("#hour-" + i + " textarea")
     var saveBtn = $("#hour-" + i + " .saveBtn")
@@ -30,35 +30,34 @@ for(var i = 9; i<= 17; i++) {
 reload();
 
 // Add event listener to save buttons
-saveBtns.forEach(function(button, index) {
+saveBtns.forEach(function (button, index) {
     var value = button
-      .parent()
-      .attr("id")
-      .replace("time-", "");
-      button.click(function() {
-          text=$("#time-" + value + " note" )
-            .val()
-            .trim()
+        .parent()
+        .attr("id")
+        .replace("time-", "");
+    button.click(function () {
+        text = $("#time-" + value + " textarea").val().trim()
         toDoList[value - 9] = text;
         localStorage.setItem("toDoList", JSON.stringify(toDoList))
-      })
+        console.log(toDoList)
+    })
 })
 
 //Function to change colors
 
 var currentHour = moment().hour();
-    
-$(".time-frame").each(function(){
+
+$(".time-frame").each(function () {
     var timeBlockHour = parseInt($(this).attr("id").split("-")[1]);
-   
-    if (timeBlockHour < currentHour){
+
+    if (timeBlockHour < currentHour) {
         $(this).children('textarea').addClass("past")
 
-    }else if (timeBlockHour === currentHour){
+    } else if (timeBlockHour === currentHour) {
         $(this).removeClass("past")
         $(this).children('textarea').addClass("present")
 
-    } else if (timeBlockHour > currentHour){ 
+    } else if (timeBlockHour > currentHour) {
         $(this).removeClass("present")
         $(this).children('textarea').addClass("future")
     }
@@ -67,22 +66,14 @@ $(".time-frame").each(function(){
 // load/set up local storage data
 function reload() {
     var localData = localStorage.getItem("toDoList")
-    if(!localData) {
-        for (var i  = 0; i < times ; i++) {
+    if (!localData) {
+        for (var i = 0; i < times; i++) {
             toDoList.push("");
         } return false;
-    } 
+    }
     toDoList = JSON.parse(localData)
 
-    times.forEach(function(block, index) {
+    times.forEach(function (block, index) {
         block.block.val(toDoList[index])
     })
 }
-
-
-
-
-
-
-
-
