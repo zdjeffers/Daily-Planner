@@ -1,39 +1,88 @@
-//Retrieve the current date
-let todaysDate = $("#currentDay").text(moment().format('dddd, MMMM Do YYYY'));
-console.log($("#currentDay"));
+// Set empty arrays
+var toDoList = []
+var times = []
+var saveBtns = []
 
-//Create Empty Arrays
-let toDoList = [];
-let times = [];
-let saveBtns = [];
+// Generate local time via Moment.js
+var todaysDate = moment().format("h:mm:ss dddd, MMMM Do")
+$("#currentDay").text(todaysDate)
 
-for (let i = 9; i < 17; i++) {
-    var time = moment().startOf(todaysDate).add(i, "hours");
-    var saveBtn = $("#hour" + i + ".saveBtn");
-    console.log(time);
+var hourNow = moment().startOf('hour');
+
+console.log(hourNow);
+
+// add time slots and save buttons to arrays
+for(var i = 9; i<= 17; i++) {
+    // create vars for time moment, create block and savebutton id queries
+    var block = $("#hour-" + i + " textarea")
+    var saveBtn = $("#hour-" + i + " .saveBtn")
+    var time = moment().startOf(todaysDate).add(i, 'hours')
+
+    // create ann object for later ref
+    var timeBlock = {
+        time: time,
+        block: block
+    }
+    times.push(timeBlock);
+    saveBtns.push(saveBtn);
 }
-
-//Create object
-var timeBlock = {
-    time: time,
-    block: block,
-}
-times.push(timeBlock);
-saveBtns.push(saveBtn);
 
 reload();
 
-//Add event listeners to save buttons
-$(document).on("click", ".save", function(button, index) {
-    var value = button;
-        // .parent()
-        // .attr("id")
-        // .replace("time-", "");
-        button.click(function() {
-            text = $("#time-" + value + " textarea").val().trim();
-            toDoList[value - 9] = text
-            localStorage.setItem("toDoList", JSON.stringify(toDoList))
-        })
+// Add event listener to save buttons
+saveBtns.forEach(function(button, index) {
+    var value = button
+      .parent()
+      .attr("id")
+      .replace("time-", "");
+      button.click(function() {
+          text=$("#time-" + value + " note" )
+            .val()
+            .trim()
+        toDoList[value - 9] = text;
+        localStorage.setItem("toDoList", JSON.stringify(toDoList))
+      })
 })
 
-//function for changing the colors based on the time
+//Function to change colors
+
+var currentHour = moment().hour();
+    
+$(".time-frame").each(function(){
+    var timeBlockHour = parseInt($(this).attr("id").split("-")[1]);
+   
+    if (timeBlockHour < currentHour){
+        $(this).children('textarea').addClass("past")
+
+    }else if (timeBlockHour === currentHour){
+        $(this).removeClass("past")
+        $(this).children('textarea').addClass("present")
+
+    } else if (timeBlockHour > currentHour){ 
+        $(this).removeClass("present")
+        $(this).children('textarea').addClass("future")
+    }
+}, 600000);
+
+// load/set up local storage data
+function reload() {
+    var localData = localStorage.getItem("toDoList")
+    if(!localData) {
+        for (var i  = 0; i < times ; i++) {
+            toDoList.push("");
+        } return false;
+    } 
+    toDoList = JSON.parse(localData)
+
+    times.forEach(function(block, index) {
+        block.block.val(toDoList[index])
+    })
+}
+
+
+
+
+
+
+
+
