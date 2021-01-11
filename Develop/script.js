@@ -9,8 +9,6 @@ $("#currentDay").text(todaysDate)
 
 var hourNow = moment().startOf('hour');
 
-console.log(hourNow);
-
 // add time slots and save buttons to arrays
 for (var i = 9; i <= 17; i++) {
     // create vars for time moment, create block and savebutton id queries
@@ -18,7 +16,7 @@ for (var i = 9; i <= 17; i++) {
     var saveBtn = $("#hour-" + i + " .saveBtn")
     var time = moment().startOf(todaysDate).add(i, 'hours')
 
-    // create ann object for later ref
+    // create nn object for later ref
     var timeBlock = {
         time: time,
         block: block
@@ -34,12 +32,11 @@ saveBtns.forEach(function (button, index) {
     var value = button
         .parent()
         .attr("id")
-        .replace("time-", "");
+        .replace("hour-", "");
     button.click(function () {
-        text = $("#time-" + value + " textarea").val().trim()
+        text = $("#hour-" + value + " textarea").val().trim()
         toDoList[value - 9] = text;
         localStorage.setItem("toDoList", JSON.stringify(toDoList))
-        console.log(toDoList)
     })
 })
 
